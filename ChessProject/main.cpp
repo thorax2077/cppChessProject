@@ -51,19 +51,28 @@ int WINAPI WinMain(
 		NULL,
 		hInstance,
 		NULL);
-	HWND btn = CreateWindow(
-		_T("button"),
-		_T("Ok"),
-		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-		5,
-		20,
-		40,
-		35,
-		hWnd,
-		(HMENU) BTN_1,
-		hInstance,
-		NULL
-	);
+	HWND btns[8][8];
+	for (int i = 0; i < 8; i++) 
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			int menu = 101 + j + (8 * i);
+			btns[i][j] = CreateWindow(
+				_T("button"),
+				NULL,
+				WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+				5 + 40 * j,
+				5 + 40 * i,
+				40,
+				40,
+				hWnd,
+				((HMENU) menu),
+				hInstance,
+				NULL
+			);
+		}
+		
+	}
 	if (!hWnd)
 	{
 		MessageBox(NULL,
