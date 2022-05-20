@@ -2,6 +2,7 @@
 #include <tchar.h>
 #include "resource2.h"
 #include <string>
+#include <optional>
 #include "ChessPiece.h"
 using namespace std;
 
@@ -175,7 +176,7 @@ void setString(HWND arr[][8], int x, int y, LPCWSTR newTitle) {
 	);
 }
 
-ChessPiece getChessPiece(ChessPiece arr[32], int x, int y) {
+ChessPiece getChessPieceAtPosition(ChessPiece arr[32], int x, int y) {
 	if (x < 0 || x > 7 || y < 0 || y > 7) throw new exception("x or y outside of range at getChessPiece");
 	for (int i = 0; i < 32; i++) {
 		if (arr[i].X == x && arr[i].Y == y) return arr[i];
