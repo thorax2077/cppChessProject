@@ -1,7 +1,12 @@
 #include <Windows.h>
 #include <tchar.h>
 #include "resource2.h"
+#include <string>
+#include "ChessPiece.h"
+using namespace std;
 
+#define PAWN "pawn"
+#define ALLIGNWHITE "white"
 
 
 static TCHAR szWindowClass[] = _T("DesktopApp");
@@ -10,6 +15,8 @@ HINSTANCE hInst;
 
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM );
+HWND hWnd;
+void setString(HWND arr[][8], int x, int y, LPCWSTR newTitle);
 
 
 int WINAPI WinMain(
@@ -38,7 +45,7 @@ int WINAPI WinMain(
 		return 1;
 	}
 	hInst = hInstance;
-	HWND hWnd = CreateWindowEx(
+	hWnd = CreateWindowEx(
 		WS_EX_OVERLAPPEDWINDOW,
 		szWindowClass,
 		szTile,
@@ -46,12 +53,13 @@ int WINAPI WinMain(
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
 		500,
-		100,
+		500,
 		NULL,
 		NULL,
 		hInstance,
 		NULL);
 	HWND btns[8][8];
+	
 	for (int i = 0; i < 8; i++) 
 	{
 		for (int j = 0; j < 8; j++)
@@ -61,10 +69,10 @@ int WINAPI WinMain(
 				_T("button"),
 				NULL,
 				WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-				5 + 40 * j,
-				5 + 40 * i,
-				40,
-				40,
+				5 + 60 * j,
+				5 + 60 * i,
+				60,
+				60,
 				hWnd,
 				((HMENU) menu),
 				hInstance,
@@ -73,6 +81,23 @@ int WINAPI WinMain(
 		}
 		
 	}
+	btns[0][0] = NULL;
+	btns[0][0] = CreateWindow(
+		_T("button"),
+		_T("button"),
+		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+		5,
+		5,
+		60,
+		60,
+		hWnd,
+		(HMENU)101,
+		hInstance,
+		NULL
+	);
+	setString(btns, 4, 7, L"mah man");
+	
+
 	if (!hWnd)
 	{
 		MessageBox(NULL,
@@ -103,7 +128,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		SelectObject(hdc, hPen);
-		Ellipse(hdc, 5, 5, 100, 20);
 		EndPaint(hWnd, &ps);
 		break;
 	case WM_DESTROY:
@@ -111,6 +135,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		break;
 		//get eventcalls from children
 	case WM_COMMAND:
+
 		switch (LOWORD(wParam))
 		{
 		case BN_CLICKED:
@@ -129,4 +154,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	}
 
 	return 0;
+}
+
+
+void setString(HWND arr[][8], int x, int y, LPCWSTR newTitle) {
+	arr[x][y] = NULL;
+	int menu = 101 + x + y * 8;
+	arr[x][y] = CreateWindow(
+		_T("button"),
+		newTitle,
+		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+		5 + 60 * x,
+		5 + 60 * y,
+		60,
+		60,
+		hWnd,
+		(HMENU) menu,
+		hInst,
+		NULL
+	);
+}
+
+ChessPiece getChessPiece(ChessPiece arr[32], int x, int y) {
+	if (x < 0 || x > 7 || y < 0 || y > 7) throw new exception("x or y outside of range at getChessPiece");
+	for (int i = 0; i < 32; i++) {
+		if (arr[i].X == x && arr[i].Y == y) return arr[i];
+	}
+	throw new exception("could not be found");
 }

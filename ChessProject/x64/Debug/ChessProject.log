@@ -1,3 +1,4 @@
 ﻿  main.cpp
-C:\Users\Thomas\source\repos\ChessProject\ChessProject\main.cpp(72,1): warning C4312: "Typumwandlung": Konvertierung von "int" in größeren Typ "HMENU"
+C:\Users\Thomas\source\repos\ChessProject\ChessProject\main.cpp(79,1): warning C4312: "Typumwandlung": Konvertierung von "int" in größeren Typ "HMENU"
+C:\Users\Thomas\source\repos\ChessProject\ChessProject\main.cpp(173,1): warning C4312: "Typumwandlung": Konvertierung von "int" in größeren Typ "HMENU"
   ChessProject.vcxproj -> C:\Users\Thomas\source\repos\ChessProject\x64\Debug\ChessProject.exe
