@@ -1,10 +1,12 @@
 #include <Windows.h>
+#include <optional>
 #include <tchar.h>
 #include "resource2.h"
 #include <string>
-#include <optional>
 #include "ChessPiece.h"
 using namespace std;
+
+#define Button_Size 100
 
 #define PAWN "pawn"
 #define ALLIGNWHITE "white"
@@ -12,12 +14,19 @@ using namespace std;
 
 static TCHAR szWindowClass[] = _T("DesktopApp");
 static TCHAR szTile[] = _T("Windows Desktop Guided Tour Application");
+enum Phase;
+Phase title;
 HINSTANCE hInst;
+void buttonAction(int wParam);
+
+HWND btns[8][8];
+ChessPiece chessPieces[32];
 
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM );
 HWND hWnd;
 void setString(HWND arr[][8], int x, int y, LPCWSTR newTitle);
+optional<ChessPiece> getChessPieceAtPosition(ChessPiece arr[32], int x, int y);
 
 
 int WINAPI WinMain(
@@ -26,6 +35,8 @@ int WINAPI WinMain(
 	_In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow
 ) {
+	title = Phase::Pick;
+
 	WNDCLASSEX wcex;
 
 	wcex.cbSize = sizeof(WNDCLASSEX);
@@ -53,8 +64,8 @@ int WINAPI WinMain(
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
-		500,
-		500,
+		830,
+		850,
 		NULL,
 		NULL,
 		hInstance,
@@ -70,10 +81,10 @@ int WINAPI WinMain(
 				_T("button"),
 				NULL,
 				WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-				5 + 60 * j,
-				5 + 60 * i,
-				60,
-				60,
+				5 + Button_Size * j,
+				5 + Button_Size * i,
+				Button_Size,
+				Button_Size,
 				hWnd,
 				((HMENU) menu),
 				hInstance,
@@ -89,8 +100,8 @@ int WINAPI WinMain(
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
 		5,
 		5,
-		60,
-		60,
+		Button_Size,
+		Button_Size,
 		hWnd,
 		(HMENU)101,
 		hInstance,
@@ -137,16 +148,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		//get eventcalls from children
 	case WM_COMMAND:
 
-		switch (LOWORD(wParam))
+		switch (HIWORD(wParam))
 		{
 		case BN_CLICKED:
 			MessageBox(NULL, _T("that's good"), _T("ok button response"), NULL);
-			break;
-		case BTN_1:
-			MessageBox(NULL, _T("button 1 pressed :)"), _T("header"), NULL);
+			buttonAction(wParam);
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
+			break;
 		}
 	
 	default:
@@ -165,10 +175,10 @@ void setString(HWND arr[][8], int x, int y, LPCWSTR newTitle) {
 		_T("button"),
 		newTitle,
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-		5 + 60 * x,
-		5 + 60 * y,
-		60,
-		60,
+		5 + Button_Size * x,
+		5 + Button_Size * y,
+		Button_Size,
+		Button_Size,
 		hWnd,
 		(HMENU) menu,
 		hInst,
@@ -176,10 +186,54 @@ void setString(HWND arr[][8], int x, int y, LPCWSTR newTitle) {
 	);
 }
 
-ChessPiece getChessPieceAtPosition(ChessPiece arr[32], int x, int y) {
+optional<ChessPiece> getChessPieceAtPosition(ChessPiece arr[32], int x, int y) {
 	if (x < 0 || x > 7 || y < 0 || y > 7) throw new exception("x or y outside of range at getChessPiece");
 	for (int i = 0; i < 32; i++) {
 		if (arr[i].X == x && arr[i].Y == y) return arr[i];
 	}
-	throw new exception("could not be found");
+	return {};
 }
+
+
+void buttonAction(int wParam) {
+
+}
+
+void buttonUpdate() {
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			LPCWSTR title;
+			for (int k = 0; k < 32; k++) {
+				if (chessPieces[k].X == j && chessPieces[k].Y == i) {
+					title = chessPieces[k].name;
+				}
+				else
+				{
+					title = L"";
+				}
+			}
+			int menu = 101 + j + (8 * i);
+			btns[i][j] = CreateWindow(
+				_T("button"),
+				title,
+				WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+				5 + Button_Size * j,
+				5 + Button_Size * i,
+				Button_Size,
+				Button_Size,
+				hWnd,
+				((HMENU)menu),
+				hInst,
+				NULL
+			);
+		}
+
+	}
+}
+
+enum Phase {
+	Pick,
+	Step
+};

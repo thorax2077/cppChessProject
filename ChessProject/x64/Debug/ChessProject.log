@@ -1,4 +1,10 @@
 ﻿  main.cpp
-C:\Users\Thomas\source\repos\ChessProject\ChessProject\main.cpp(79,1): warning C4312: "Typumwandlung": Konvertierung von "int" in größeren Typ "HMENU"
-C:\Users\Thomas\source\repos\ChessProject\ChessProject\main.cpp(173,1): warning C4312: "Typumwandlung": Konvertierung von "int" in größeren Typ "HMENU"
-  ChessProject.vcxproj -> C:\Users\Thomas\source\repos\ChessProject\x64\Debug\ChessProject.exe
+C:\Users\Thomas\source\repos\ChessProject\ChessProject\ChessPiece.h(23,25): warning C4240: Nicht dem Standard entsprechende Erweiterung: Zugriff auf "ChessPiece::ChessFigure" nun als "public" definiert, wurde zuvor als "private" definiert
+C:\Users\Thomas\source\repos\ChessProject\ChessProject\ChessPiece.h(10): message : Siehe Deklaration von "ChessPiece::ChessFigure"
+C:\Users\Thomas\source\repos\ChessProject\ChessProject\ChessPiece.h(32,23): warning C4240: Nicht dem Standard entsprechende Erweiterung: Zugriff auf "ChessPiece::Alignment" nun als "public" definiert, wurde zuvor als "private" definiert
+C:\Users\Thomas\source\repos\ChessProject\ChessProject\ChessPiece.h(11): message : Siehe Deklaration von "ChessPiece::Alignment"
+C:\Users\Thomas\source\repos\ChessProject\ChessProject\main.cpp(38,10): error C2065: "Pick": nichtdeklarierter Bezeichner
+C:\Users\Thomas\source\repos\ChessProject\ChessProject\main.cpp(92,1): warning C4312: "Typumwandlung": Konvertierung von "int" in größeren Typ "HMENU"
+C:\Users\Thomas\source\repos\ChessProject\ChessProject\main.cpp(155,17): warning C4244: "Argument": Konvertierung von "WPARAM" in "int", möglicher Datenverlust
+C:\Users\Thomas\source\repos\ChessProject\ChessProject\main.cpp(186,1): warning C4312: "Typumwandlung": Konvertierung von "int" in größeren Typ "HMENU"
+C:\Users\Thomas\source\repos\ChessProject\ChessProject\main.cpp(230,1): warning C4312: "Typumwandlung": Konvertierung von "int" in größeren Typ "HMENU"

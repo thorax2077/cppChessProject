@@ -1,24 +1,26 @@
 #pragma once
+#include <Windows.h>
 #include <string>
 #include <array>
+#include <optional>
 using namespace std;
 
 class ChessPiece
 {
-	enum ChessFigure;
-	enum Alignment;
-	enum Direction;
+	enum class ChessFigure;
+	enum class Alignment;
+	enum class Direction;
 	
 public:
-	bool checkIfStepValid(ChessPiece arr[32], int curX, int curY, int toBeX, int toBeY);
+	
 	int Y;
 	int X;
-	string name;
+	LPCWSTR name;
 	ChessFigure chessFigure;
 	Alignment alignment;
 	bool directionIsUp;
 
-	enum ChessFigure {
+	enum class ChessFigure {
 		Pawn,
 		Rook,
 		Horse,
@@ -27,10 +29,9 @@ public:
 		Queen,
 		None
 	};
-	enum Alignment {
+	enum class Alignment {
 		White,
 		Black,
-		None
 	};
 
 	bool checkIfStepValid(ChessPiece arr[32], int curX, int curY, int toBeX, int toBeY) {
@@ -58,7 +59,7 @@ public:
 		}
 		int dirMult = ownDirectionIsUp ? -1 : 1;
 		switch (ownType) {
-		case Pawn:
+		case ChessFigure::Pawn:
 			if (toBeX == curX + 1 * dirMult && toBeY == curY + 1 * dirMult) {
 				return true;
 			}
@@ -66,17 +67,17 @@ public:
 				if ((enX == curX + 1 || enX == curX - 1) && enY == curY + 1 * dirMult) return true;
 			}
 			break;
-		case Rook:
+		case ChessFigure::Rook:
 			break;
-		case Horse:
+		case ChessFigure::Horse:
 			break;
-		case Bishop:
+		case ChessFigure::Bishop:
 			break;
-		case King:
+		case ChessFigure::King:
 			break;
-		case Queen:
+		case ChessFigure::Queen:
 			break;
-		case None:
+		case ChessFigure::None:
 			break;
 		default:
 			break;
